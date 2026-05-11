@@ -68,8 +68,16 @@ export default function LandingPage() {
                   </Link>
                 )}
                 <button
-                  onClick={() => signOut()}
-                  className="px-4 py-1.5 rounded bg-gray-100 text-sm font-semibold text-gray-800 hover:bg-gray-200 border border-gray-300"
+                  onClick={async () => {
+                    await signOut();
+                    window.location.href = "/auth/sign-in";
+                  }}
+                  className="px-4 py-1.5 rounded border text-sm font-semibold text-gray-800 hover:bg-gray-100"
+                  style={{
+                    border: "1px solid #1a1a2e",
+                    padding: "0.375rem 1rem",
+                    fontFamily: "Inter, sans-serif",
+                  }}
                 >
                   Log Out
                 </button>
