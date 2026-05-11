@@ -24,8 +24,7 @@ export default function AuthInput({
     <div className="flex flex-col gap-1 w-full">
       <label
         htmlFor={name}
-        className="uppercase text-[12px] font-semibold tracking-widest text-[#555] mb-1"
-        style={{ letterSpacing: 1.2 }}
+        className="block text-[#374151] text-xs font-bold uppercase tracking-wide mb-2"
       >
         {label}
       </label>
@@ -39,12 +38,7 @@ export default function AuthInput({
         required={required}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        className="w-full px-4 py-[13px] text-[15px] border border-[#ddd] focus:outline-none"
-        style={{
-          borderRadius: 0,
-          borderColor: focused ? "#0d1b3e" : "#ddd",
-          transition: "border-color 0.2s",
-        }}
+        className={`w-full border border-gray-300 px-4 py-3 text-[#111827] placeholder-[#9ca3af] text-sm focus:outline-none focus:border-[#0d1b3e] focus:ring-1 focus:ring-[#0d1b3e] rounded-none ${focused ? "ring-1 ring-[#0d1b3e] border-[#0d1b3e]" : ""}`}
         autoComplete={name}
       />
     </div>

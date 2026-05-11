@@ -27,6 +27,7 @@ model User {
   twoFactorEnabled Boolean?    @default(false)
   twofactors       TwoFactor[]
   memberships      Membership[]
+  events   Event[]
 
   @@map("user")
 }
@@ -101,6 +102,7 @@ model Club {
   university   University? @relation(fields: [universityId], references: [id], onDelete: Cascade)
 
   memberships Membership[]
+  events      Event[]
 }
 
 model University {
@@ -128,4 +130,19 @@ model Membership {
   club       Club        @relation(fields: [clubId], references: [id], onDelete: Cascade)
 
   @@id([userId, clubId])
+}
+
+model Event {
+  id        String   @id
+  title     String
+  content   String?
+  startsAt  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organizerId String
+  organizer   User   @relation(fields: [organizerId], references: [id], onDelete: Cascade)
+
+  clubId    String?
+  club      Club?   @relation(fields: [clubId], references: [id], onDelete: Cascade)
 }

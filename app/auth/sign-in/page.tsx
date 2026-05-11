@@ -32,16 +32,12 @@ export default function SignInPage() {
   }
 
   return (
-    <div
-      className="min-h-screen flex flex-row"
-      style={{ fontFamily: "Inter, sans-serif", background: NAVY }}
-    >
+    <div className="min-h-screen flex flex-row font-sans bg-[#0d1b3e]">
       <AuthLeftPanel
         badge="Welcome Back"
         heading={
           <span>
-            Sign in to{" "}
-            <em style={{ color: "#e74c3c", fontStyle: "normal" }}>UniClubs</em>
+            Sign in to <em className="text-[#e74c3c] not-italic">UniClubs</em>
           </span>
         }
         subtitle="Access your campus clubs, events, and more."
@@ -51,28 +47,19 @@ export default function SignInPage() {
           "Manage your memberships easily",
         ]}
       />
-      <div className="flex-1 flex items-center justify-center bg-[#f7f5f0] min-h-screen w-full">
+      <div className="flex-1 flex items-center justify-center bg-[#f7f5f0] min-h-screen w-full p-4">
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-[420px] bg-white shadow p-10 flex flex-col gap-7"
-          style={{ margin: "48px 0", borderRadius: 0 }}
+          className="w-full max-w-md bg-white shadow-md p-8 sm:p-10 rounded-none flex flex-col gap-7"
         >
-          <h1
-            className="text-3xl font-serif font-normal mb-1"
-            style={{
-              color: NAVY,
-              fontFamily: "Georgia, serif",
-              fontWeight: 400,
-            }}
-          >
+          <h1 className="text-[#0d1b3e] text-3xl font-serif font-normal mb-1">
             Sign In
           </h1>
-          <div className="text-[15px] text-[#1a1a2e] mb-2">
+          <div className="text-[#4b5563] text-sm mb-2">
             Don&apos;t have an account?{" "}
             <Link
               href="/auth/sign-up"
-              className="text-[var(--crimson,#c0392b)] font-semibold hover:underline"
-              style={{ color: CRIMSON }}
+              className="text-[#c0392b] font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
             >
               Sign Up
             </Link>
@@ -98,30 +85,20 @@ export default function SignInPage() {
           <div className="flex justify-end -mt-2">
             <Link
               href="#"
-              className="text-[var(--crimson,#c0392b)] text-[14px] font-medium hover:underline"
-              style={{ color: CRIMSON }}
+              className="text-[#c0392b] text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
             >
               Forgot password?
             </Link>
           </div>
           {error && (
-            <div
-              className="text-[var(--crimson,#c0392b)] text-[14px] font-sans mb-2"
-              style={{ color: CRIMSON }}
-            >
+            <div className="bg-[#fef2f2] border border-red-200 text-[#991b1b] text-sm px-3 py-2 rounded">
               {error}
             </div>
           )}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-[15px] bg-[var(--navy,#0d1b3e)] text-white font-semibold text-[16px] mt-2"
-            style={{
-              borderRadius: 0,
-              background: NAVY,
-              fontWeight: 600,
-              transition: "background 0.2s",
-            }}
+            className="w-full bg-[#0d1b3e] hover:bg-[#162447] text-white font-bold py-3 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-[#0d1b3e] focus:ring-offset-2"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>

@@ -38,16 +38,12 @@ export default function SignUpPage() {
   }
 
   return (
-    <div
-      className="min-h-screen flex flex-row"
-      style={{ fontFamily: "Inter, sans-serif", background: NAVY }}
-    >
+    <div className="min-h-screen flex flex-row font-sans bg-[#0d1b3e]">
       <AuthLeftPanel
         badge="Join Us"
         heading={
           <span>
-            Sign up for{" "}
-            <em style={{ color: "#e74c3c", fontStyle: "normal" }}>UniClubs</em>
+            Sign up for <em className="text-[#e74c3c] not-italic">UniClubs</em>
           </span>
         }
         subtitle="Create your account to join clubs, attend events, and connect with your campus community."
@@ -57,28 +53,19 @@ export default function SignUpPage() {
           "Access exclusive member events",
         ]}
       />
-      <div className="flex-1 flex items-center justify-center bg-[#f7f5f0] min-h-screen w-full">
+      <div className="flex-1 flex items-center justify-center bg-[#f7f5f0] min-h-screen w-full p-4">
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-[420px] bg-white shadow p-10 flex flex-col gap-7"
-          style={{ margin: "48px 0", borderRadius: 0 }}
+          className="w-full max-w-md bg-white shadow-md p-8 sm:p-10 rounded-none flex flex-col gap-7"
         >
-          <h1
-            className="text-3xl font-serif font-normal mb-1"
-            style={{
-              color: NAVY,
-              fontFamily: "Georgia, serif",
-              fontWeight: 400,
-            }}
-          >
+          <h1 className="text-[#0d1b3e] text-3xl font-serif font-normal mb-1">
             Sign Up
           </h1>
-          <div className="text-[15px] text-[#1a1a2e] mb-2">
+          <div className="text-[#4b5563] text-sm mb-2">
             Already have an account?{" "}
             <Link
               href="/auth/sign-in"
-              className="font-semibold hover:underline"
-              style={{ color: CRIMSON }}
+              className="text-[#c0392b] font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
             >
               Sign In
             </Link>
@@ -120,20 +107,14 @@ export default function SignUpPage() {
             required
           />
           {error && (
-            <div style={{ color: CRIMSON }} className="text-[14px] font-sans">
+            <div className="bg-[#fef2f2] border border-red-200 text-[#991b1b] text-sm px-3 py-2 rounded">
               {error}
             </div>
           )}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-[15px] text-white font-semibold text-[16px] mt-2"
-            style={{
-              borderRadius: 0,
-              background: NAVY,
-              fontWeight: 600,
-              transition: "background 0.2s",
-            }}
+            className="w-full bg-[#0d1b3e] hover:bg-[#162447] text-white font-bold py-3 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-[#0d1b3e] focus:ring-offset-2"
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>
