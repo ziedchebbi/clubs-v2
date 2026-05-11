@@ -63,25 +63,35 @@ export default async function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
         {/* Recent Clubs Table */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
-          <div className="px-6 py-4 border-b bg-[#0d1b3e] text-white text-xs font-semibold uppercase tracking-wider">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="bg-[#111827] px-4 py-3 text-gray-300 text-xs font-semibold uppercase tracking-wider">
             Recent Clubs
           </div>
-          <table className="min-w-[420px] w-full text-sm">
+          <table className="w-full min-w-[420px] text-sm">
             <thead>
-              <tr>
-                <th className="px-6 py-3 text-left font-semibold">Name</th>
-                <th className="px-2 py-3 text-left font-semibold">Members</th>
-                <th className="px-2 py-3 text-left font-semibold">Created</th>
+              <tr className="bg-[#111827]">
+                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
+                  Name
+                </th>
+                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
+                  Members
+                </th>
+                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
+                  Created
+                </th>
               </tr>
             </thead>
             <tbody>
               {recentClubs.map((club, i) => (
                 <tr
                   key={club.id}
-                  className={i % 2 === 0 ? "bg-white" : "bg-[#f9fafb]"}
+                  className={
+                    i % 2 === 0
+                      ? "bg-white"
+                      : "bg-gray-50 hover:bg-blue-50 transition-colors duration-150"
+                  }
                 >
-                  <td className="px-6 py-3 text-[#111827] font-medium">
+                  <td className="text-[#111827] font-medium px-4 py-3">
                     <Link
                       href="/admin/clubs"
                       className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
@@ -89,10 +99,10 @@ export default async function AdminDashboard() {
                       {club.name}
                     </Link>
                   </td>
-                  <td className="px-2 py-3 text-[#4b5563]">
+                  <td className="text-[#4b5563] px-4 py-3">
                     {club._count.memberships}
                   </td>
-                  <td className="px-2 py-3 text-[#4b5563]">
+                  <td className="text-[#4b5563] px-4 py-3">
                     {club.createdAt.toLocaleDateString()}
                   </td>
                 </tr>
@@ -102,36 +112,48 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Recent Students Table */}
-        <div className="bg-white rounded-lg shadow border p-0 overflow-hidden">
-          <div className="px-6 py-4 border-b text-lg font-semibold text-[var(--navy,#0d1b3e)] bg-[#f7f5f0]">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="bg-[#111827] px-4 py-3 text-gray-300 text-xs font-semibold uppercase tracking-wider">
             Recent Students
           </div>
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[420px] text-sm">
             <thead>
-              <tr className="bg-[#f7f5f0] text-[#1a1a2e]">
-                <th className="px-6 py-3 text-left font-semibold">Name</th>
-                <th className="px-2 py-3 text-left font-semibold">Email</th>
-                <th className="px-2 py-3 text-left font-semibold">Role</th>
-                <th className="px-2 py-3 text-left font-semibold">Joined</th>
+              <tr className="bg-[#111827]">
+                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
+                  Name
+                </th>
+                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
+                  Email
+                </th>
+                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
+                  Role
+                </th>
+                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
+                  Joined
+                </th>
               </tr>
             </thead>
             <tbody>
               {recentUsers.map((user, i) => (
                 <tr
                   key={user.id}
-                  className={i % 2 === 0 ? "bg-white" : "bg-[#f7f5f0]"}
+                  className={
+                    i % 2 === 0
+                      ? "bg-white"
+                      : "bg-gray-50 hover:bg-blue-50 transition-colors duration-150"
+                  }
                 >
-                  <td className="px-6 py-3">
+                  <td className="text-[#111827] font-medium px-4 py-3">
                     <Link
                       href="/admin/students"
-                      className="text-[var(--navy,#0d1b3e)] font-medium hover:underline"
+                      className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
                     >
                       {user.name}
                     </Link>
                   </td>
-                  <td className="px-2 py-3">{user.email}</td>
-                  <td className="px-2 py-3">{user.role}</td>
-                  <td className="px-2 py-3">
+                  <td className="text-[#4b5563] px-4 py-3">{user.email}</td>
+                  <td className="text-[#4b5563] px-4 py-3">{user.role}</td>
+                  <td className="text-[#4b5563] px-4 py-3">
                     {user.createdAt.toLocaleDateString()}
                   </td>
                 </tr>
