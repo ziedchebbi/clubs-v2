@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 
 const ROLE_COLORS: Record<string, string> = {
-  CHAIR: "bg-amber-100 text-amber-800",
-  OFFICER: "bg-indigo-100 text-indigo-800",
-  MEMBER: "bg-gray-100 text-gray-700",
+  CHAIR: "bg-[#ffe0b2] text-[#7a4900]", // orange badge
+  OFFICER: "bg-[#e3f2fd] text-[#1a237e]", // blue badge
+  MEMBER: "bg-[#f5f5f5] text-[#4a3728]", // neutral badge
 };
 
 const ROLE_LABELS: Record<string, string> = {
@@ -82,14 +82,17 @@ export default function MembershipsTable({
   return (
     <div className="w-full">
       <div className="mb-4 flex items-center gap-2">
-        <label htmlFor="club-filter" className="font-semibold text-sm">
+        <label
+          htmlFor="club-filter"
+          className="font-semibold text-sm text-[#ff9800]"
+        >
           Club:
         </label>
         <select
           id="club-filter"
           value={clubId}
           onChange={(e) => setClubId(e.target.value)}
-          className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-[#0d1b3e]"
+          className="border border-[#ff9800] bg-white text-[#1a1a1a] placeholder-[#ff9800] rounded-lg px-3 py-2 focus:outline-none focus:border-[#ff9800] focus:ring-1 focus:ring-[#ff9800]"
         >
           <option value="">All Clubs</option>
           {clubs.map((c) => (
@@ -99,42 +102,52 @@ export default function MembershipsTable({
           ))}
         </select>
       </div>
-      <div className="bg-white rounded-lg shadow border border-gray-200 overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-[#0d1b3e]">
+      <div className="bg-white rounded-xl shadow-sm border border-[#ff9800] overflow-x-auto">
+        <table className="min-w-full divide-y divide-[#ff9800]">
+          <thead className="bg-[#0a1436]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold text-[#ff9800] uppercase tracking-widest">
                 Member Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold text-[#ff9800] uppercase tracking-widest">
                 Email
               </th>
-              <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold text-[#ff9800] uppercase tracking-widest">
                 Club
               </th>
-              <th className="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-bold text-[#ff9800] uppercase tracking-widest">
                 Role
               </th>
-              <th className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold text-[#ff9800] uppercase tracking-widest">
                 Joined Date
               </th>
-              <th className="px-6 py-3 text-center text-xs font-bold text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-bold text-[#ff9800] uppercase tracking-widest">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filtered.map((m) => (
-              <tr key={m.user.id + m.club.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap font-semibold text-[#0d1b3e]">
+          <tbody>
+            {filtered.map((m, i) => (
+              <tr
+                key={m.user.id + m.club.id}
+                className={
+                  (i % 2 === 0 ? "bg-white" : "bg-white") +
+                  " hover:bg-[#fff3e0] transition-colors"
+                }
+              >
+                <td className="px-6 py-4 whitespace-nowrap font-medium text-[#1a1a1a]">
                   {m.user.name}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{m.user.email}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{m.club.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-[#4a3728]">
+                  {m.user.email}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-[#4a3728]">
+                  {m.club.name}
+                </td>
                 <td className="px-6 py-4 text-center">
                   <RoleBadge role={m.role} />
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap text-[#4a3728]">
                   {new Date(m.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 text-center space-x-2">
@@ -144,7 +157,7 @@ export default function MembershipsTable({
                       handleRoleChange(m.user.id, m.club.id, e.target.value)
                     }
                     disabled={loading === m.user.id + m.club.id}
-                    className="px-2 py-1 rounded border border-gray-300 text-xs focus:outline-none focus:border-[#0d1b3e]"
+                    className="px-2 py-1 rounded border border-[#ff9800] bg-white text-[#1a1a1a] text-xs focus:outline-none focus:border-[#ff9800] focus:ring-1 focus:ring-[#ff9800]"
                   >
                     <option value="MEMBER">Member</option>
                     <option value="OFFICER">Officer</option>
@@ -153,7 +166,7 @@ export default function MembershipsTable({
                   <button
                     onClick={() => handleRemove(m.user.id, m.club.id)}
                     disabled={loading === m.user.id + m.club.id}
-                    className="inline-block px-3 py-1 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 disabled:opacity-60"
+                    className="inline-block px-3 py-1 text-xs font-semibold bg-[#fdecea] border border-red-200 text-[#b71c1c] hover:bg-red-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200 disabled:opacity-60"
                   >
                     Remove from Club
                   </button>

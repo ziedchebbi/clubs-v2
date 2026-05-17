@@ -19,9 +19,11 @@ export default async function AdminStudentsPage() {
     orderBy: { createdAt: "desc" },
   });
   return (
-    <div>
+    <div className="px-4 sm:px-6 lg:px-8 py-6">
       <PageHeader title="Students" description="Manage registered users" />
-      <StudentsTable users={users} currentUserId={currentUserId} />
+      <div className="mt-2">
+        <StudentsTable users={users} currentUserId={currentUserId} />
+      </div>
     </div>
   );
 }

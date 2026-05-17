@@ -13,12 +13,12 @@ export default function LandingPage() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-white">
+    <div className="min-h-screen flex flex-col font-sans bg-[#f5f0e8]">
       {/* Navbar */}
-      <nav className="sticky top-0 z-50 w-full bg-white shadow-sm h-16 flex items-center justify-between px-4 sm:px-8 lg:px-16 border-b border-gray-200">
+      <nav className="sticky top-0 z-50 w-full bg-white shadow-sm h-16 flex items-center justify-between px-4 sm:px-8 lg:px-16 border-b border-[#e8ddd0]">
         <div className="flex items-center gap-3">
           <span className="text-xl font-bold tracking-tight text-[#1a1a2e] select-none">
-            Uni<span className="text-[#c0392b]">Clubs</span>
+            Uni<span className="text-[#d4895a]">Clubs</span>
           </span>
         </div>
         {/* Desktop nav links */}
@@ -32,7 +32,7 @@ export default function LandingPage() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-[#374151] text-sm font-medium hover:text-[#c0392b] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
+              className="text-[#4a3728] text-sm font-medium hover:text-[#8b4513] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513]"
             >
               {item.label}
             </Link>
@@ -45,7 +45,7 @@ export default function LandingPage() {
               {isAdmin && (
                 <Link
                   href="/admin"
-                  className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
+                  className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#f5f0e8]"
                 >
                   Admin Panel
                 </Link>
@@ -55,7 +55,7 @@ export default function LandingPage() {
                   await signOut();
                   window.location.href = "/auth/sign-in";
                 }}
-                className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
+                className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#f5f0e8]"
               >
                 Log Out
               </button>
@@ -64,13 +64,13 @@ export default function LandingPage() {
             <>
               <Link
                 href="/auth/sign-in"
-                className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
+                className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#f5f0e8]"
               >
                 Log In
               </Link>
               <Link
                 href="/auth/sign-up"
-                className="bg-[#c0392b] text-white px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-[#a93226]"
+                className="bg-[#8b4513] text-white px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#6b3410]"
               >
                 Sign Up
               </Link>
@@ -79,7 +79,7 @@ export default function LandingPage() {
         </div>
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
+          className="md:hidden flex items-center justify-center w-10 h-10 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513]"
           aria-label={
             mobileNavOpen ? "Close navigation menu" : "Open navigation menu"
           }
@@ -178,16 +178,16 @@ export default function LandingPage() {
       )}
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#0d1b3e] to-[#1a2d5a] py-24 sm:py-32 px-4 sm:px-8 text-center">
+      <section className="bg-gradient-to-br from-[#1a1a2e] to-[#2d2d5e] py-24 sm:py-32 px-4 sm:px-8 text-center">
         <span
-          className="inline-block bg-[#c0392b] text-white text-xs font-bold uppercase tracking-widest px-4 py-2 mb-6"
+          className="inline-block bg-[#8b4513] text-white text-xs font-bold uppercase tracking-widest px-4 py-2 mb-6"
           aria-hidden="true"
         >
           Welcome
         </span>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-white leading-tight mb-6">
           Your Campus. Your Clubs.{" "}
-          <em className="text-[#e74c3c] not-italic">Your Community.</em>
+          <em className="text-[#d4895a] not-italic">Your Community.</em>
         </h1>
         <p className="text-white/80 text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
           Discover, join, and lead student clubs at your university. Connect
@@ -196,13 +196,13 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/auth/sign-up"
-            className="bg-[#c0392b] text-white px-8 py-4 text-base font-semibold rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-[#a93226]"
+            className="bg-[#8b4513] text-white px-8 py-4 text-base font-semibold rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#6b3410]"
           >
             Get Started
           </Link>
           <Link
             href="#clubs"
-            className="border border-white/60 text-white px-8 py-4 text-base font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-white/10"
+            className="border border-white/60 text-white px-8 py-4 text-base font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-white/10"
           >
             Explore Clubs
           </Link>
@@ -210,7 +210,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats Bar */}
-      <section className="bg-[#c0392b] py-6 px-4">
+      <section className="bg-[#8b4513] py-6 px-4">
         <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
           {[
             { value: "12+", label: "Active Clubs" },

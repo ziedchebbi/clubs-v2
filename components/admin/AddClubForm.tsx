@@ -115,7 +115,7 @@ export default function AddClubForm({
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-[#c0392b] hover:bg-[#a93226] text-white font-semibold px-4 py-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
+        className="w-full bg-[#ff9800] hover:bg-[#e98c00] text-white font-semibold px-4 py-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
       >
         {loading ? "Adding..." : "Add Club"}
       </button>

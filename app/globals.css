@@ -1,8 +1,27 @@
 @import "tailwindcss";
 
+/* Updated color system */
+
+/* Original color system (orange & dark blue) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a1436; /* dark blue */
+  --foreground: #fffbe6; /* off-white for contrast */
+  --primary-accent: #ff9800; /* orange */
+  --primary-accent-hover: #ffe0b2; /* lighter orange */
+  --secondary-accent: #1a237e; /* deeper blue */
+  --secondary-accent-hover: #283593;
+  --card-bg: #162447; /* slightly lighter dark blue */
+  --sidebar-bg: #101c3a;
+  --topbar-bg: #101c3a;
+  --primary-text: #fffbe6;
+  --secondary-text: #ff9800;
+  --muted-text: #b0b8c1;
+  --sidebar-text-inactive: #b0b8c1;
+  --sidebar-text-active: #ff9800;
+  --sidebar-text-active-bg: #1a237e;
+  --border: #283593;
+  --input-border: #ff9800;
+  --input-placeholder: #b0b8c1;
 }
 
 @theme inline {
@@ -12,12 +31,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Remove prefers-color-scheme override to enforce dark blue always */
 
 body {
   background: var(--background);

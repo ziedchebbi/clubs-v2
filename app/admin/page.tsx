@@ -13,7 +13,7 @@ export default async function AdminDashboard() {
     recentClubs,
     recentUsers,
   ] = await Promise.all([
-    prisma.user.count(),
+    prisma.user.count({ where: { role: "USER" } }),
     prisma.club.count(),
     prisma.membership.count(),
     prisma.event.count(),
@@ -28,6 +28,7 @@ export default async function AdminDashboard() {
       },
     }),
     prisma.user.findMany({
+      where: { NOT: { role: "ADMIN" } },
       orderBy: { createdAt: "desc" },
       take: 5,
       select: {
@@ -67,7 +68,7 @@ export default async function AdminDashboard() {
           <div className="bg-[#111827] px-4 py-3 text-gray-300 text-xs font-semibold uppercase tracking-wider">
             Recent Clubs
           </div>
-          <table className="w-full min-w-[420px] text-sm">
+          <table className="w-full min-w-105 text-sm">
             <thead>
               <tr className="bg-[#111827]">
                 <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
@@ -116,7 +117,7 @@ export default async function AdminDashboard() {
           <div className="bg-[#111827] px-4 py-3 text-gray-300 text-xs font-semibold uppercase tracking-wider">
             Recent Students
           </div>
-          <table className="w-full min-w-[420px] text-sm">
+          <table className="w-full min-w-105 text-sm">
             <thead>
               <tr className="bg-[#111827]">
                 <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
