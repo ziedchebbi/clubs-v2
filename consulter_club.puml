@@ -1,0 +1,21 @@
+@startuml
+actor Etudiant
+participant UI
+participant AuthController
+participant ClubController
+participant ClubService
+database DB
+ref over UI, AuthController
+    Authentification de l'utilisateur
+end ref
+Etudiant -> UI : consulter clubs
+
+UI -> ClubController : getClubs()
+ClubController -> ClubService : listerClubs()
+ClubService -> DB : SELECT * FROM clubs
+DB --> ClubService : liste clubs
+ClubService --> ClubController
+ClubController --> UI
+UI --> Etudiant : afficher clubs
+
+@enduml

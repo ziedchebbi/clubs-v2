@@ -27,7 +27,9 @@ model User {
   twoFactorEnabled Boolean?    @default(false)
   twofactors       TwoFactor[]
   memberships      Membership[]
-  events   Event[]
+  events           Event[]
+  annonces         Annonce[]
+  commentaires     Commentaire[]
 
   @@map("user")
 }
@@ -92,57 +94,74 @@ model TwoFactor {
 }
 
 model Club {
-  id String @id
-  name String
-  bio String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  id           String       @id
+  name         String
+  bio          String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
   universityId String?
-  university   University? @relation(fields: [universityId], references: [id], onDelete: Cascade)
-
-  memberships Membership[]
-  events      Event[]
+  university   University?  @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  memberships  Membership[]
+  events       Event[]
+  annonces     Annonce[]
 }
 
 model University {
-  id   String  @id
-  name String  @unique
-
+  id    String @id
+  name  String @unique
   clubs Club[]
 }
 
 enum EMemberRole {
+  PRESIDENT
   MEMBER
-  OFFICER
-  CHAIR
 }
 
 model Membership {
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  role       EMemberRole @default(MEMBER)
-
-  userId     String
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  clubId     String
-  club       Club        @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  role      EMemberRole @default(MEMBER)
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clubId    String
+  club      Club        @relation(fields: [clubId], references: [id], onDelete: Cascade)
 
   @@id([userId, clubId])
 }
 
 model Event {
-  id        String   @id
-  title     String
-  content   String?
-  startsAt  DateTime?
+  id          String    @id
+  title       String
+  content     String?
+  startsAt    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isPublic    Boolean   @default(true)
+  organizerId String
+  organizer   User      @relation(fields: [organizerId], references: [id], onDelete: Cascade)
+  clubId      String?
+  club        Club?     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+}
+
+model Annonce {
+  id           String        @id @default(cuid())
+  content      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  clubId       String
+  club         Club          @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  authorId     String
+  author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  commentaires Commentaire[]
+}
+
+model Commentaire {
+  id        String   @id @default(cuid())
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  organizerId String
-  organizer   User   @relation(fields: [organizerId], references: [id], onDelete: Cascade)
-
-  clubId    String?
-  club      Club?   @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  annonceId String
+  annonce   Annonce  @relation(fields: [annonceId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

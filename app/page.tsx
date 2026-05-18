@@ -1,525 +1,361 @@
 "use client";
-
-import React, { useState } from "react";
 import Link from "next/link";
-import { useSession, signOut } from "@/lib/auth-client";
 
-const NAVY = "#0d1b3e";
-const CRIMSON = "#c0392b";
+const clubs = [
+  { id: "IEEE", nom: "IEEE", description: "Web workshops, algorithms, and tech projects.", membresCount: 42 },
+  { id: "croissant-rouge", nom: "Croissant Rouge", description: "Volunteering, humanitarian aid, and community service.", membresCount: 28 },
+  { id: "cavalo", nom: "Cavalo Chess", description: "Strategy, competition, and chess excellence.", membresCount: 35 },
+];
+
+const events = [
+  { id: "evt-1", titre: "Campus Hackathon", date: "2026-05-02", lieu: "Room A12", estPublic: true, club: "IEEE" },
+  { id: "evt-2", titre: "Arduino Workshop", date: "2026-05-10", lieu: "Robotics Lab", estPublic: false, club: "IEEE" },
+  { id: "evt-3", titre: "Blood Donation Drive", date: "2026-05-15", lieu: "Main Hall", estPublic: true, club: "Croissant Rouge" },
+  { id: "evt-4", titre: "University Chess Tournament", date: "2026-05-20", lieu: "Library Hall", estPublic: true, club: "Cavalo" },
+];
 
 export default function LandingPage() {
-  const { data: session } = useSession();
-  const isAdmin = session?.user?.role === "ADMIN";
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-white">
-      {/* Navbar */}
-      <nav className="sticky top-0 z-50 w-full bg-white shadow-sm h-16 flex items-center justify-between px-4 sm:px-8 lg:px-16 border-b border-gray-200">
-        <div className="flex items-center gap-3">
-          <span className="text-xl font-bold tracking-tight text-[#1a1a2e] select-none">
-            Uni<span className="text-[#c0392b]">Clubs</span>
-          </span>
-        </div>
-        {/* Desktop nav links */}
-        <div className="hidden md:flex gap-8 items-center">
-          {[
-            { href: "#about", label: "About" },
-            { href: "#clubs", label: "Clubs" },
-            { href: "#events", label: "Events" },
-            { href: "#contact", label: "Contact" },
-          ].map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-[#374151] text-sm font-medium hover:text-[#c0392b] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-        {/* Desktop auth buttons */}
-        <div className="hidden md:flex gap-3 items-center">
-          {session ? (
-            <>
-              {isAdmin && (
-                <Link
-                  href="/admin"
-                  className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-                >
-                  Admin Panel
-                </Link>
-              )}
-              <button
-                onClick={async () => {
-                  await signOut();
-                  window.location.href = "/auth/sign-in";
-                }}
-                className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-              >
-                Log Out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/auth/sign-in"
-                className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-              >
-                Log In
-              </Link>
-              <Link
-                href="/auth/sign-up"
-                className="bg-[#c0392b] text-white px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-[#a93226]"
-              >
-                Sign Up
-              </Link>
-            </>
-          )}
-        </div>
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-          aria-label={
-            mobileNavOpen ? "Close navigation menu" : "Open navigation menu"
-          }
-          onClick={() => setMobileNavOpen((v) => !v)}
-        >
-          <span aria-hidden="true">
-            {mobileNavOpen ? (
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                stroke="#1a1a2e"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M6 6l12 12M6 18L18 6" />
-              </svg>
-            ) : (
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                stroke="#1a1a2e"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </span>
-        </button>
-      </nav>
+      <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", color: "var(--color-text-body)", background: "var(--color-bg)" }}>
 
-      {/* Mobile nav menu */}
-      {mobileNavOpen && (
-        <div className="md:hidden w-full bg-white border-t border-gray-200 shadow-sm z-40">
-          <nav className="flex flex-col gap-1 py-2">
-            {[
-              { href: "#about", label: "About" },
-              { href: "#clubs", label: "Clubs" },
-              { href: "#events", label: "Events" },
-              { href: "#contact", label: "Contact" },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="px-4 py-3 text-[#1a1a2e] text-base font-medium hover:text-[#c0392b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                onClick={() => setMobileNavOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className="flex flex-col gap-2 px-4 pt-2 pb-3">
-              {session ? (
-                <>
-                  {isAdmin && (
-                    <Link
-                      href="/admin"
-                      className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-                      onClick={() => setMobileNavOpen(false)}
-                    >
-                      Admin Panel
-                    </Link>
-                  )}
-                  <button
-                    onClick={async () => {
-                      await signOut();
-                      window.location.href = "/auth/sign-in";
-                    }}
-                    className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-                  >
-                    Log Out
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/auth/sign-in"
-                    className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Log In
-                  </Link>
-                  <Link
-                    href="/auth/sign-up"
-                    className="bg-[#c0392b] text-white px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-[#a93226]"
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              )}
+        {/* NAVBAR — dark navy */}
+        <nav style={{
+          position: "sticky", top: 0, zIndex: 100,
+          background: "#0d1b2a",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "0 60px", height: 70,
+          boxShadow: "0 2px 12px rgba(0,0,0,0.18)"
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 32, height: 32, background: "#f59e0b", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6 }}>
+              <span style={{ color: "#0d1b2a", fontWeight: 700, fontSize: 16, fontFamily: "sans-serif" }}>U</span>
             </div>
-          </nav>
-        </div>
-      )}
+            <span style={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: 20, color: "#ffffff", letterSpacing: "-0.3px" }}>
+            Uni<span style={{ color: "#f59e0b" }}>Clubs</span>
+          </span>
+          </div>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#0d1b3e] to-[#1a2d5a] py-24 sm:py-32 px-4 sm:px-8 text-center">
-        <span
-          className="inline-block bg-[#c0392b] text-white text-xs font-bold uppercase tracking-widest px-4 py-2 mb-6"
-          aria-hidden="true"
-        >
-          Welcome
-        </span>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-white leading-tight mb-6">
-          Your Campus. Your Clubs.{" "}
-          <em className="text-[#e74c3c] not-italic">Your Community.</em>
-        </h1>
-        <p className="text-white/80 text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-          Discover, join, and lead student clubs at your university. Connect
-          with peers, attend events, and make your mark on campus life.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/auth/sign-up"
-            className="bg-[#c0392b] text-white px-8 py-4 text-base font-semibold rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-[#a93226]"
-          >
-            Get Started
-          </Link>
-          <Link
-            href="#clubs"
-            className="border border-white/60 text-white px-8 py-4 text-base font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-white/10"
-          >
-            Explore Clubs
-          </Link>
-        </div>
-      </section>
+          <div style={{ display: "flex", gap: 36, fontFamily: "sans-serif", fontSize: 14 }}>
+            {["#about", "#clubs", "#events", "#contact"].map((href, i) => (
+                <a key={href} href={href} style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none", transition: "color 0.2s" }}
+                   onMouseEnter={e => (e.currentTarget.style.color = "#ffffff")}
+                   onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}>
+                  {["About", "Clubs", "Events", "Contact"][i]}
+                </a>
+            ))}
+          </div>
 
-      {/* Stats Bar */}
-      <section className="bg-[#c0392b] py-6 px-4">
-        <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
+          <div style={{ display: "flex", gap: 12, fontFamily: "sans-serif" }}>
+            <Link href="/sign-in" style={{
+              border: "2px solid rgba(255,255,255,0.5)", color: "#ffffff",
+              background: "transparent", borderRadius: 8, padding: "8px 20px",
+              fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "all 0.2s"
+            }}>Log In</Link>
+            <Link href="/sign-up" style={{
+              background: "#f59e0b", color: "#0d1b2a",
+              borderRadius: 8, padding: "8px 20px",
+              fontSize: 14, fontWeight: 600, textDecoration: "none", border: "2px solid #f59e0b"
+            }}>Sign Up</Link>
+          </div>
+        </nav>
+
+        {/* HERO */}
+        <section style={{
+          position: "relative", height: 580,
+          background: "linear-gradient(135deg, #0d1b2a 0%, #1e3a5f 50%, #0d1b2a 100%)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          overflow: "hidden"
+        }}>
+          <div style={{
+            position: "absolute", inset: 0, opacity: 0.05,
+            backgroundImage: "repeating-linear-gradient(0deg, #fff 0px, #fff 1px, transparent 1px, transparent 60px), repeating-linear-gradient(90deg, #fff 0px, #fff 1px, transparent 1px, transparent 60px)"
+          }} />
+          <div style={{ position: "relative", textAlign: "center", color: "#ffffff", maxWidth: 700, padding: "0 24px" }}>
+            <div style={{
+              display: "inline-block", background: "#f59e0b", color: "#0d1b2a",
+              fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: 2,
+              padding: "6px 16px", marginBottom: 28, textTransform: "uppercase", borderRadius: 4
+            }}>University Life Platform</div>
+
+            {/* WHITE heading */}
+            <h1 style={{
+              fontSize: 58, fontWeight: 400, lineHeight: 1.1, margin: "0 0 20px",
+              fontFamily: "'Georgia', serif", color: "#ffffff"
+            }}>
+              Your Campus.<br />Your Clubs.<br />
+              <em style={{ color: "#f59e0b" }}>Your Community.</em>
+            </h1>
+
+            <p style={{
+              fontFamily: "sans-serif", fontSize: 17, color: "rgba(255,255,255,0.75)",
+              margin: "0 0 40px", lineHeight: 1.6, fontWeight: 300
+            }}>
+              Discover university clubs, join events, and connect with students who share your passions.
+            </p>
+
+            <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
+              <Link href="/sign-up" style={{
+                background: "#f59e0b", color: "#0d1b2a",
+                padding: "14px 36px", fontSize: 15, fontFamily: "sans-serif", fontWeight: 600,
+                borderRadius: 8, textDecoration: "none", border: "2px solid #f59e0b"
+              }}>Get Started</Link>
+              <a href="#clubs" style={{
+                background: "rgba(255,255,255,0.12)", color: "#ffffff",
+                padding: "14px 36px", fontSize: 15, fontFamily: "sans-serif", fontWeight: 400,
+                borderRadius: 8, textDecoration: "none", border: "2px solid rgba(255,255,255,0.3)"
+              }}>Explore Clubs</a>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS BAR */}
+        <div style={{
+          background: "#0d1b2a", padding: "20px 60px",
+          display: "flex", justifyContent: "center", gap: 80
+        }}>
           {[
             { value: "12+", label: "Active Clubs" },
             { value: "400+", label: "Members" },
             { value: "50+", label: "Events / Year" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div className="text-white text-2xl sm:text-3xl font-bold">
-                {stat.value}
+          ].map(stat => (
+              <div key={stat.label} style={{ textAlign: "center", color: "#ffffff" }}>
+                <div style={{ fontSize: 28, fontWeight: 700, fontFamily: "sans-serif" }}>{stat.value}</div>
+                <div style={{ fontSize: 13, opacity: 0.75, fontFamily: "sans-serif", letterSpacing: 0.5 }}>{stat.label}</div>
               </div>
-              <div className="text-white/90 text-xs sm:text-sm uppercase tracking-wide">
-                {stat.label}
-              </div>
-            </div>
           ))}
         </div>
-      </section>
 
-      {/* About Section */}
-      <section
-        id="about"
-        className="py-20 px-4 sm:px-8 max-w-6xl mx-auto w-full"
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="text-[#c0392b] text-xs font-bold uppercase tracking-widest mb-4 block">
-              About the Platform
-            </span>
-            <h2 className="text-[#1a1a2e] text-3xl sm:text-4xl font-serif font-normal mb-6">
-              Bringing Students Together Through Shared Interests
-            </h2>
-            <p className="text-[#4b5563] text-base leading-relaxed mb-6">
-              UniClubs is your all-in-one platform for discovering, joining, and
-              managing student clubs at your university. Whether you're a
-              student looking to get involved, a club member organizing events,
-              or a club president managing your team, UniClubs makes campus life
-              easier and more connected.
-            </p>
-            <ul className="space-y-3">
-              {[
-                "For Students: Browse and join clubs, RSVP to events, and connect with like-minded peers.",
-                "For Club Members: Stay updated on club activities, participate in discussions, and manage your memberships.",
-                "For Club Presidents: Streamline club management, assign roles, and promote your club to the campus community.",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span
-                    className="inline-flex w-5 h-5 bg-[#c0392b] text-white items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
-                    aria-hidden="true"
-                  >
-                    ✓
-                  </span>
-                  <span className="text-[#374151] text-sm">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="bg-[#0d1b3e] p-10">
-            <div className="text-white/70 text-sm mb-6" aria-hidden="true">
-              Platform Stats
-            </div>
-            {[
-              { value: "12", label: "Clubs" },
-              { value: "400", label: "Members" },
-              { value: "50", label: "Events/Year" },
-            ].map((stat, i, arr) => (
-              <div
-                key={stat.label}
-                className={`flex justify-between py-3 ${i < arr.length - 1 ? "border-b border-white/20" : ""}`}
-              >
-                <span className="text-white text-lg font-serif">
-                  {stat.value}
-                </span>
-                <span className="text-white/70 text-sm">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Clubs Section */}
-      <section id="clubs" className="bg-[#f7f5f0] py-20 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto">
-          <span className="text-[#c0392b] text-xs font-bold uppercase tracking-widest mb-4 block">
-            Our Community
-          </span>
-          <h2 className="text-[#1a1a2e] text-3xl sm:text-4xl font-serif font-normal mb-10">
-            Featured Clubs
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                name: "IEEE",
-                icon: "⚡",
-                desc: "Advancing technology for humanity. Workshops, competitions, and networking.",
-                members: 42,
-              },
-              {
-                name: "Croissant Rouge",
-                icon: "❤️",
-                desc: "Humanitarian club focused on volunteering and social impact.",
-                members: 28,
-              },
-              {
-                name: "Cavalo Chess",
-                icon: "♟️",
-                desc: "For chess lovers of all levels. Tournaments, lessons, and fun!",
-                members: 35,
-              },
-            ].map((club) => (
-              <div
-                key={club.name}
-                className="bg-white border-t-4 border-[#c0392b] shadow-sm hover:shadow-md transition-shadow p-8 flex flex-col"
-              >
-                <div className="text-4xl mb-4" aria-hidden="true">
-                  {club.icon}
-                </div>
-                <h3 className="text-[#1a1a2e] text-xl font-serif font-normal mb-2">
-                  {club.name}
-                </h3>
-                <p className="text-[#4b5563] text-sm leading-relaxed mb-6 flex-1">
-                  {club.desc}
-                </p>
-                <div className="flex justify-between items-center border-t border-gray-100 pt-4">
-                  <span className="text-[#6b7280] text-sm">
-                    {club.members} members
-                  </span>
-                  <Link
-                    href="/etudiant/clubs"
-                    className="text-[#c0392b] font-semibold text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                  >
-                    Learn More →
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link
-              href="/etudiant/clubs"
-              className="border-2 border-[#0d1b3e] text-[#0d1b3e] px-10 py-3 text-sm font-semibold hover:bg-[#0d1b3e] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-            >
-              View All Clubs
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Events Section */}
-      <section id="events" className="py-20 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto">
-          <span className="text-[#c0392b] text-xs font-bold uppercase tracking-widest mb-4 block">
-            What's Happening
-          </span>
-          <h2 className="text-[#1a1a2e] text-3xl sm:text-4xl font-serif font-normal mb-10">
-            Upcoming Events
-          </h2>
-          <div className="flex flex-col gap-2">
-            {[
-              {
-                title: "Campus Hackathon",
-                date: "2026-05-02",
-                lieu: "Room A12",
-                public: true,
-                club: "IEEE",
-              },
-              {
-                title: "Arduino Workshop",
-                date: "2026-05-10",
-                lieu: "Robotics Lab",
-                public: false,
-                club: "IEEE",
-              },
-              {
-                title: "Blood Donation Drive",
-                date: "2026-05-15",
-                lieu: "Main Hall",
-                public: true,
-                club: "Croissant Rouge",
-              },
-              {
-                title: "University Chess Tournament",
-                date: "2026-05-20",
-                lieu: "Library Hall",
-                public: true,
-                club: "Cavalo Chess",
-              },
-            ].map((evt, i) => (
-              <div
-                key={evt.title}
-                className={`grid grid-cols-1 sm:grid-cols-[80px_1fr_auto_auto] gap-4 items-center p-6 border-l-4 ${evt.public ? "border-l-[#c0392b]" : "border-l-[#0d1b3e]"} ${i % 2 === 0 ? "bg-white" : "bg-[#f9f9f9]"}`}
-              >
-                <div>
-                  <div className="text-[#0d1b3e] text-2xl font-bold font-sans">
-                    {new Date(evt.date).toLocaleDateString("en-US", {
-                      day: "2-digit",
-                    })}
-                  </div>
-                  <div className="text-[#6b7280] text-xs uppercase tracking-wide">
-                    {new Date(evt.date).toLocaleDateString("en-US", {
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[#1a1a2e] text-lg font-serif">
-                    {evt.title}
-                  </div>
-                  <div className="text-[#4b5563] text-sm">
-                    📍 {evt.lieu} · {evt.club}
-                  </div>
-                </div>
-                <span
-                  className={`text-xs font-semibold px-3 py-1 ${evt.public ? "bg-[#fef0ee] text-[#991b1b]" : "bg-[#eef0fa] text-[#1e40af]"}`}
-                >
-                  {evt.public ? "Public" : "Members Only"}
-                </span>
-                <Link
-                  href="/etudiant/evenements"
-                  className="text-[#c0392b] font-semibold text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                >
-                  Register →
-                </Link>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link
-              href="/etudiant/evenements"
-              className="bg-[#0d1b3e] text-white px-10 py-3 text-sm font-semibold hover:bg-[#162447] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-            >
-              View All Events
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-[#0d1b3e] py-20 px-4 text-center">
-        <h2 className="text-white text-3xl sm:text-4xl font-serif font-normal mb-4">
-          Ready to Get Involved?
-        </h2>
-        <p className="text-white/80 text-base leading-relaxed mb-10 max-w-xl mx-auto">
-          Create your account today and start exploring clubs, events, and your
-          university community.
-        </p>
-        <Link
-          href="/auth/sign-up"
-          className="bg-[#c0392b] text-white px-12 py-4 text-base font-semibold hover:bg-[#a93226] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-        >
-          Sign Up — It's Free
-        </Link>
-      </section>
-
-      {/* Footer */}
-      <footer id="contact" className="bg-[#0a1428] py-16 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        {/* ABOUT SECTION */}
+        <section id="about" style={{ padding: "100px 60px", maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
             <div>
-              <div className="text-white font-bold text-lg mb-4">
-                Uni<span className="text-[#e74c3c]">Clubs</span>
-              </div>
-              <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-                The official university clubs and events management platform.
+              <div style={{
+                fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: 2,
+                color: "#f59e0b", textTransform: "uppercase", marginBottom: 16
+              }}>About the Platform</div>
+              <h2 style={{ fontSize: 40, fontWeight: 400, margin: "0 0 24px", lineHeight: 1.2, color: "#0d1b2a" }}>
+                Bringing Students Together Through Shared Interests
+              </h2>
+              <p style={{ color: "#64748b", lineHeight: 1.8, fontSize: 16, fontFamily: "sans-serif", margin: "0 0 20px" }}>
+                UniClubs is the central hub for university club management. Whether you're a student looking to join a community, a club member staying up to date, or a club president organizing events — everything you need is in one place.
               </p>
-            </div>
-            {[
-              {
-                title: "Platform",
-                links: ["Home", "Clubs", "Events", "Announcements"],
-              },
-              {
-                title: "Roles",
-                links: ["Student", "Member", "President", "Admin"],
-              },
-              {
-                title: "Support",
-                links: ["Help Center", "Contact", "Privacy Policy", "Terms"],
-              },
-            ].map((col) => (
-              <div key={col.title}>
-                <div className="text-white text-xs font-bold uppercase tracking-widest mb-4">
-                  {col.title}
-                </div>
-                <ul className="space-y-2">
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-white/60 text-sm hover:text-white/90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+              <p style={{ color: "#64748b", lineHeight: 1.8, fontSize: 16, fontFamily: "sans-serif", margin: "0 0 32px" }}>
+                From academic societies to humanitarian organizations and competitive clubs, discover your place on campus.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {[
+                  "Browse and join clubs that match your interests",
+                  "Register for public and private events",
+                  "Stay informed with club announcements",
+                ].map(item => (
+                    <div key={item} style={{ display: "flex", gap: 12, alignItems: "flex-start", fontFamily: "sans-serif" }}>
+                      <div style={{ width: 20, height: 20, background: "#f59e0b", flexShrink: 0, marginTop: 2, borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ color: "#0d1b2a", fontSize: 12, fontWeight: 700 }}>✓</span>
+                      </div>
+                      <span style={{ color: "#1e293b", fontSize: 15 }}>{item}</span>
+                    </div>
+                ))}
               </div>
-            ))}
+            </div>
+            <div style={{ background: "#0d1b2a", padding: 48, position: "relative", borderRadius: 12 }}>
+              <div style={{ position: "absolute", top: 12, right: 12, width: 60, height: 60, border: "2px solid #f59e0b", opacity: 0.4, borderRadius: 8 }} />
+              <div style={{ color: "#ffffff" }}>
+                <div style={{ fontSize: 14, fontFamily: "sans-serif", color: "rgba(255,255,255,0.6)", marginBottom: 8 }}>For Students</div>
+                <div style={{ fontSize: 20, marginBottom: 24 }}>Discover your community</div>
+                <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 24, marginTop: 24 }}>
+                  <div style={{ fontSize: 14, fontFamily: "sans-serif", color: "rgba(255,255,255,0.6)", marginBottom: 8 }}>For Club Members</div>
+                  <div style={{ fontSize: 20, marginBottom: 24 }}>Stay connected & informed</div>
+                </div>
+                <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 24 }}>
+                  <div style={{ fontSize: 14, fontFamily: "sans-serif", color: "rgba(255,255,255,0.6)", marginBottom: 8 }}>For Presidents</div>
+                  <div style={{ fontSize: 20 }}>Manage with ease</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <span className="text-white/40 text-xs">
+        </section>
+
+        {/* CLUBS SECTION */}
+        <section id="clubs" style={{ background: "#f8fafc", padding: "100px 60px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ textAlign: "center", marginBottom: 60 }}>
+              <div style={{
+                fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: 2,
+                color: "#f59e0b", textTransform: "uppercase", marginBottom: 16
+              }}>Our Community</div>
+              <h2 style={{ fontSize: 42, fontWeight: 400, margin: 0, color: "#0d1b2a" }}>Featured Clubs</h2>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
+              {clubs.map(club => (
+                  <div key={club.id} style={{
+                    background: "#ffffff", padding: 36,
+                    borderTop: "3px solid #f59e0b",
+                    borderRadius: 8,
+                    boxShadow: "0 2px 20px rgba(0,0,0,0.06)"
+                  }}>
+                    <div style={{
+                      width: 48, height: 48, background: "#fef3c7", borderRadius: 8,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      marginBottom: 16
+                    }}>
+                  <span style={{ color: "#f59e0b", fontWeight: 700, fontSize: 20, fontFamily: "sans-serif" }}>
+                    {club.nom.charAt(0)}
+                  </span>
+                    </div>
+                    <h3 style={{ fontSize: 22, fontWeight: 400, margin: "0 0 12px", color: "#0d1b2a" }}>{club.nom}</h3>
+                    <p style={{ color: "#64748b", fontFamily: "sans-serif", fontSize: 14, lineHeight: 1.7, margin: "0 0 24px" }}>
+                      {club.description}
+                    </p>
+                    <div style={{
+                      display: "flex", justifyContent: "space-between", alignItems: "center",
+                      borderTop: "1px solid #e2e8f0", paddingTop: 20
+                    }}>
+                  <span style={{ fontFamily: "sans-serif", fontSize: 13, color: "#64748b" }}>
+                    {club.membresCount} members
+                  </span>
+                      <Link href="/clubs" style={{
+                        fontFamily: "sans-serif", fontSize: 13, color: "#f59e0b",
+                        textDecoration: "none", fontWeight: 600
+                      }}>Learn More →</Link>
+                    </div>
+                  </div>
+              ))}
+            </div>
+            <div style={{ textAlign: "center", marginTop: 48 }}>
+              <Link href="/clubs" style={{
+                border: "2px solid #0d1b2a", color: "#0d1b2a",
+                background: "transparent", borderRadius: 8,
+                padding: "14px 40px", fontFamily: "sans-serif", fontSize: 15, fontWeight: 500,
+                textDecoration: "none", display: "inline-block"
+              }}>View All Clubs</Link>
+            </div>
+          </div>
+        </section>
+
+        {/* EVENTS SECTION */}
+        <section id="events" style={{ padding: "100px 60px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ textAlign: "center", marginBottom: 60 }}>
+              <div style={{
+                fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: 2,
+                color: "#f59e0b", textTransform: "uppercase", marginBottom: 16
+              }}>What's Happening</div>
+              <h2 style={{ fontSize: 42, fontWeight: 400, margin: 0, color: "#0d1b2a" }}>Upcoming Events</h2>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {events.map((evt, i) => (
+                  <div key={evt.id} style={{
+                    display: "grid", gridTemplateColumns: "100px 1fr auto auto",
+                    alignItems: "center", gap: 32,
+                    padding: "28px 32px",
+                    background: i % 2 === 0 ? "#ffffff" : "#f8fafc",
+                    borderLeft: "4px solid " + (evt.estPublic ? "#f59e0b" : "#0d1b2a"),
+                  }}>
+                    <div>
+                      <div style={{ fontFamily: "sans-serif", fontSize: 24, fontWeight: 700, color: "#0d1b2a" }}>
+                        {new Date(evt.date).toLocaleDateString("en-US", { day: "2-digit" })}
+                      </div>
+                      <div style={{ fontFamily: "sans-serif", fontSize: 12, color: "#64748b", textTransform: "uppercase", letterSpacing: 1 }}>
+                        {new Date(evt.date).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 18, fontWeight: 400, marginBottom: 4, color: "#0d1b2a" }}>{evt.titre}</div>
+                      <div style={{ fontFamily: "sans-serif", fontSize: 13, color: "#64748b" }}>
+                        {evt.lieu} &nbsp;·&nbsp; {evt.club}
+                      </div>
+                    </div>
+                    <span style={{
+                      fontFamily: "sans-serif", fontSize: 12, padding: "4px 12px", borderRadius: 20,
+                      background: evt.estPublic ? "rgba(245,158,11,0.12)" : "rgba(13,27,42,0.08)",
+                      color: evt.estPublic ? "#d97706" : "#0d1b2a",
+                      fontWeight: 500
+                    }}>
+                  {evt.estPublic ? "Public" : "Members Only"}
+                </span>
+                    <Link href="/sign-up" style={{
+                      fontFamily: "sans-serif", fontSize: 13, color: "#f59e0b",
+                      textDecoration: "none", fontWeight: 600
+                    }}>Register →</Link>
+                  </div>
+              ))}
+            </div>
+            <div style={{ textAlign: "center", marginTop: 48 }}>
+              <Link href="/sign-up" style={{
+                background: "#f59e0b", color: "#0d1b2a",
+                padding: "14px 40px", fontFamily: "sans-serif", fontSize: 15, fontWeight: 600,
+                borderRadius: 8, textDecoration: "none", display: "inline-block"
+              }}>View All Events</Link>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA SECTION */}
+        <section style={{ background: "#0d1b2a", padding: "80px 60px", textAlign: "center" }}>
+          <div style={{ maxWidth: 600, margin: "0 auto" }}>
+            <h2 style={{ fontSize: 40, fontWeight: 400, color: "#ffffff", margin: "0 0 20px" }}>
+              Ready to Get Involved?
+            </h2>
+            <p style={{ color: "rgba(255,255,255,0.65)", fontFamily: "sans-serif", fontSize: 16, margin: "0 0 40px", lineHeight: 1.7 }}>
+              Create your account today and start exploring clubs, events, and your university community.
+            </p>
+            <Link href="/sign-up" style={{
+              background: "#f59e0b", color: "#0d1b2a",
+              padding: "16px 48px", fontFamily: "sans-serif", fontSize: 16, fontWeight: 600,
+              borderRadius: 8, textDecoration: "none", display: "inline-block"
+            }}>Sign Up — It's Free</Link>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <footer id="contact" style={{ background: "#0d1b2a", padding: "60px 60px 30px", color: "#ffffff" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+                  <div style={{ width: 28, height: 28, background: "#f59e0b", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ color: "#0d1b2a", fontWeight: 700, fontSize: 14, fontFamily: "sans-serif" }}>U</span>
+                  </div>
+                  <span style={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: 18, color: "#ffffff" }}>
+                  Uni<span style={{ color: "#f59e0b" }}>Clubs</span>
+                </span>
+                </div>
+                <p style={{ color: "rgba(255,255,255,0.55)", fontFamily: "sans-serif", fontSize: 14, lineHeight: 1.7, maxWidth: 260 }}>
+                  The official university clubs and events management platform.
+                </p>
+              </div>
+              {[
+                { title: "Platform", links: ["Home", "Clubs", "Events", "Announcements"] },
+                { title: "Roles", links: ["Student", "Member", "President", "Admin"] },
+                { title: "Support", links: ["Help Center", "Contact", "Privacy Policy", "Terms"] },
+              ].map(col => (
+                  <div key={col.title}>
+                    <div style={{ color: "#ffffff", fontFamily: "sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase", marginBottom: 20 }}>
+                      {col.title}
+                    </div>
+                    {col.links.map(link => (
+                        <div key={link} style={{ marginBottom: 10 }}>
+                          <a href="#" style={{ color: "rgba(255,255,255,0.55)", fontFamily: "sans-serif", fontSize: 14, textDecoration: "none" }}>
+                            {link}
+                          </a>
+                        </div>
+                    ))}
+                  </div>
+              ))}
+            </div>
+            <div style={{
+              borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 28,
+              display: "flex", justifyContent: "space-between", alignItems: "center"
+            }}>
+            <span style={{ color: "rgba(255,255,255,0.4)", fontFamily: "sans-serif", fontSize: 13 }}>
               © 2026 UniClubs. All rights reserved.
             </span>
-            <span className="text-white/40 text-xs">
+              <span style={{ color: "rgba(255,255,255,0.4)", fontFamily: "sans-serif", fontSize: 13 }}>
               University Club Management System
             </span>
+            </div>
           </div>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
   );
 }

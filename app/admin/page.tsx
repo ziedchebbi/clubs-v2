@@ -1,165 +1,57 @@
-import PageHeader from "@/components/admin/PageHeader";
-import StatCard from "@/components/admin/StatCard";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { Users, Building2, ShieldCheck } from "lucide-react";
 
-export default async function AdminDashboard() {
-  // Fetch stats and recent data from Prisma
-  const [
-    userCount,
-    clubCount,
-    membershipCount,
-    eventCount,
-    recentClubs,
-    recentUsers,
-  ] = await Promise.all([
-    prisma.user.count(),
-    prisma.club.count(),
-    prisma.membership.count(),
-    prisma.event.count(),
-    prisma.club.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 5,
-      select: {
-        id: true,
-        name: true,
-        createdAt: true,
-        _count: { select: { memberships: true } },
-      },
-    }),
-    prisma.user.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 5,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
-    }),
-  ]);
-
+export default function AdminPage() {
   return (
-    <div>
-      <PageHeader
-        title="Dashboard"
-        description="Platform overview and recent activity"
-      />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-        <StatCard title="Students" value={userCount} icon="IconUsersGroup" />
-        <StatCard
-          title="Clubs"
-          value={clubCount}
-          icon="IconBuildingCommunity"
-        />
-        <StatCard
-          title="Memberships"
-          value={membershipCount}
-          icon="IconIdBadge2"
-        />
-        <StatCard title="Events" value={eventCount} icon="IconCalendarEvent" />
+    <div className="container mx-auto p-8">
+      <header className="mb-8">
+        <h1 className="text-2xl font-bold text-[#0d1b2a]">Admin Dashboard</h1>
+        <p className="text-sm text-[#64748b] mt-1">
+          Platform-wide management and statistics.
+        </p>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-xl border border-[#e2e8f0] p-6 flex items-center gap-6">
+          <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600">
+            <Users className="h-6 w-6" />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-[#0d1b2a]">1,250</p>
+            <p className="text-sm text-[#64748b]">Total Users</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl border border-[#e2e8f0] p-6 flex items-center gap-6">
+          <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600">
+            <ShieldCheck className="h-6 w-6" />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-[#0d1b2a]">42</p>
+            <p className="text-sm text-[#64748b]">Active Clubs</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl border border-[#e2e8f0] p-6 flex items-center gap-6">
+          <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600">
+            <Building2 className="h-6 w-6" />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-[#0d1b2a]">8</p>
+            <p className="text-sm text-[#64748b]">Universities</p>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-        {/* Recent Clubs Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="bg-[#111827] px-4 py-3 text-gray-300 text-xs font-semibold uppercase tracking-wider">
-            Recent Clubs
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl border border-[#e2e8f0] p-6">
+          <h3 className="font-bold text-[#0d1b2a] mb-2">Quick Actions</h3>
+          <div className="flex flex-col space-y-3">
+            <Link href="/admin/users" className="font-semibold text-amber-600 hover:text-amber-700">Manage Users</Link>
+            <Link href="/admin/universities" className="font-semibold text-amber-600 hover:text-amber-700">Manage Universities</Link>
           </div>
-          <table className="w-full min-w-[420px] text-sm">
-            <thead>
-              <tr className="bg-[#111827]">
-                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
-                  Name
-                </th>
-                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
-                  Members
-                </th>
-                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
-                  Created
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentClubs.map((club, i) => (
-                <tr
-                  key={club.id}
-                  className={
-                    i % 2 === 0
-                      ? "bg-white"
-                      : "bg-gray-50 hover:bg-blue-50 transition-colors duration-150"
-                  }
-                >
-                  <td className="text-[#111827] font-medium px-4 py-3">
-                    <Link
-                      href="/admin/clubs"
-                      className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                    >
-                      {club.name}
-                    </Link>
-                  </td>
-                  <td className="text-[#4b5563] px-4 py-3">
-                    {club._count.memberships}
-                  </td>
-                  <td className="text-[#4b5563] px-4 py-3">
-                    {club.createdAt.toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
-
-        {/* Recent Students Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="bg-[#111827] px-4 py-3 text-gray-300 text-xs font-semibold uppercase tracking-wider">
-            Recent Students
-          </div>
-          <table className="w-full min-w-[420px] text-sm">
-            <thead>
-              <tr className="bg-[#111827]">
-                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
-                  Name
-                </th>
-                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
-                  Email
-                </th>
-                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
-                  Role
-                </th>
-                <th className="text-gray-300 text-xs font-semibold uppercase tracking-wider px-4 py-3 text-left">
-                  Joined
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentUsers.map((user, i) => (
-                <tr
-                  key={user.id}
-                  className={
-                    i % 2 === 0
-                      ? "bg-white"
-                      : "bg-gray-50 hover:bg-blue-50 transition-colors duration-150"
-                  }
-                >
-                  <td className="text-[#111827] font-medium px-4 py-3">
-                    <Link
-                      href="/admin/students"
-                      className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                    >
-                      {user.name}
-                    </Link>
-                  </td>
-                  <td className="text-[#4b5563] px-4 py-3">{user.email}</td>
-                  <td className="text-[#4b5563] px-4 py-3">{user.role}</td>
-                  <td className="text-[#4b5563] px-4 py-3">
-                    {user.createdAt.toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="bg-white rounded-xl border border-[#e2e8f0] p-6">
+          <h3 className="font-bold text-[#0d1b2a] mb-2">System Status</h3>
+          <p className="text-sm text-[#64748b]">All systems operational.</p>
         </div>
       </div>
     </div>

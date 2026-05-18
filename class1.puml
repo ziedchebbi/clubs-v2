@@ -1,0 +1,109 @@
+@startuml
+class Utilisateur {
+  id : Long
+  nom : String
+  prenom : String
+  email : String
+  motDePasse : String
+  actif : boolean
+  dateCreation : Date
+
+  + seConnecter(email : String, motDePasse : String) : boolean
+  + seDeconnecter() : void
+  + consulterProfil() : void
+}
+
+class Etudiant {
+  matricule : String
+  niveau : String
+  dateInscription : Date
+
+  + consulterClubs() : List<Club>
+  + rejoindreClub(club : Club) : void
+  + consulterEvenements() : List<Evenement>
+}
+
+class Membre {
+  dateAdhesion : Date
+  statut : String
+
+  + consulterAnnonces() : List<Annonce>
+  + commenterAnnonce(annonce : Annonce, contenu : String) : void
+  + sInscrireEvenement(evenement : Evenement) : void
+}
+
+class President {
+  dateElection : Date
+  mandatActif : boolean
+
+  + creerEvenement(evenement : Evenement) : void
+  + publierAnnonce(annonce : Annonce) : void
+  + gererMembres() : void
+}
+
+class Admin {
+  dernierAcces : Date
+
+  + gererClubs() : void
+  + gererEtudiants() : void
+}
+
+Utilisateur <|-- Etudiant
+Etudiant <|-- Membre
+Membre <|-- President
+Utilisateur <|-- Admin
+
+
+class Club {
+  id : Long
+  nom : String
+  description : String
+  dateCreation : Date
+  statut : String
+
+  + ajouterMembre(membre : Etudiant) : void
+  + supprimerMembre(membre : Etudiant) : void
+  + listerMembres() : List<Etudiant>
+}
+
+class Evenement {
+  id : Long
+  titre : String
+  type : String
+  dateDebut : Date
+  dateFin : Date
+  public : boolean
+  capacite : int
+  statut : String
+
+  + creer() : void
+  + modifier() : void
+  + annuler() : void
+}
+
+class Annonce {
+  id : Long
+  contenu : String
+  datePublication : Date
+  visible : boolean
+
+  + publier() : void
+  + supprimer() : void
+}
+
+class Commentaire {
+  id : Long
+  contenu : String
+  dateCommentaire : Date
+  modere : boolean
+
+  + ajouter() : void
+  + supprimer() : void
+}
+
+Membre "1" -- "0..*" Club : adhère
+Club "1" -- "0..*" Evenement
+Club "1" -- "0..*" Annonce
+Annonce "1" -- "0..*" Commentaire
+Utilisateur "1" -- "0..*" Commentaire
+@enduml

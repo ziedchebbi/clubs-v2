@@ -1,0 +1,48 @@
+@startuml
+actor Etudiant
+actor President
+participant UI
+participant InscriptionController
+participant ClubService
+database DB
+
+ref over UI, AuthController
+    Authentification de l'utilisateur
+end ref
+Etudiant -> UI : demander rejoindre club
+UI -> InscriptionController : joinClub(idClub)
+InscriptionController -> ClubService : créerDemandeAdhesion()
+ClubService -> DB : INSERT demande_admission
+DB --> ClubService
+ClubService --> InscriptionController : demande enregistrée
+InscriptionController --> UI
+UI --> Etudiant : demande envoyée
+
+== Validation par le Président ==
+
+President -> UI : consulter demandes d’adhésion
+UI -> InscriptionController : getDemandes()
+InscriptionController -> ClubService : listerDemandes()
+ClubService -> DB : SELECT demandes
+DB --> ClubService
+ClubService --> InscriptionController
+InscriptionController --> UI
+
+President -> UI : accepter / refuser
+UI -> InscriptionController : traiterDemande(decision)
+
+alt Demande acceptée
+    InscriptionController -> ClubService : ajouterMembre()
+    ClubService -> DB : INSERT membre
+    ClubService -> DB : UPDATE demande (acceptée)
+    ClubService --> InscriptionController : confirmation
+    InscriptionController --> UI
+    UI --> President : adhésion validée
+else Demande refusée
+    ClubService -> DB : UPDATE demande (refusée)
+    ClubService --> InscriptionController
+    InscriptionController --> UI
+    UI --> President : demande refusée
+end
+
+@enduml

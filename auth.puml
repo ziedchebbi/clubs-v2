@@ -1,0 +1,31 @@
+@startuml
+actor Utilisateur
+participant "Interface Web" as UI
+participant "AuthController" as Auth
+participant "UserService" as Service
+database DB
+
+Utilisateur -> UI : saisir email + mot de passe
+UI -> Auth : login(email, password)
+Auth -> Service : vérifierIdentifiants()
+Service -> DB : SELECT utilisateur
+activate DB
+
+DB -> DB : vérifier existence utilisateur
+DB -> DB : comparer mot de passe
+DB -> DB : calculer statut (OK / KO)
+
+DB --> Service : résultat authentification
+deactivate DB
+
+alt Identifiants valides
+    Service --> Auth : statut = OK
+    Auth --> UI : succès authentification
+    UI --> Utilisateur : accès autorisé
+else Identifiants invalides
+    Service --> Auth : statut = KO
+    Auth --> UI : échec authentification
+    UI --> Utilisateur : message erreur
+end
+
+@enduml
