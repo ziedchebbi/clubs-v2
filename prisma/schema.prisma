@@ -28,6 +28,10 @@ model User {
   twofactors       TwoFactor[]
   memberships      Membership[]
   events   Event[]
+  annonces     Annonce[]
+  commentaires Commentaire[]
+  eventAttendees EventAttendee[]
+  joinRequests JoinRequest[]
 
   @@map("user")
 }
@@ -103,6 +107,8 @@ model Club {
 
   memberships Membership[]
   events      Event[]
+  annonces    Annonce[]
+  joinRequests JoinRequest[]
 }
 
 model University {
@@ -137,12 +143,84 @@ model Event {
   title     String
   content   String?
   startsAt  DateTime?
+  isPublic Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  attendees EventAttendee[]
+  comments Commentaire[]
 
   organizerId String
   organizer   User   @relation(fields: [organizerId], references: [id], onDelete: Cascade)
 
   clubId    String?
   club      Club?   @relation(fields: [clubId], references: [id], onDelete: Cascade)
+}
+
+enum EAnnonceStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Annonce {
+  id        String         @id
+  content   String
+  status    EAnnonceStatus @default(PUBLISHED)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  clubId    String
+  club      Club           @relation(fields: [clubId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  comments  Commentaire[]
+}
+
+model Commentaire {
+  id        String   @id
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  annonceId String?
+  annonce   Annonce? @relation(fields: [annonceId], references: [id], onDelete: Cascade)
+
+  eventId   String?
+  event     Event?   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model EventAttendee {
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@id([userId, eventId])
+}
+
+enum ERequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model JoinRequest {
+  id        String        @id
+  status    ERequestStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  clubId    String
+  club      Club          @relation(fields: [clubId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, clubId])
 }
