@@ -50,8 +50,8 @@ export async function createEvent(
     revalidatePath(`/clubs/${clubId}/manage/events`);
     revalidatePath(`/clubs/${clubId}`);
     revalidatePath("/feed");
-    redirect(`/clubs/${clubId}/manage/events`);
   } catch {
     return { error: "Something went wrong" };
   }
+  redirect(`/clubs/${clubId}/manage/events`);
 }

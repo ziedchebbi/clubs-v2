@@ -33,6 +33,9 @@ model User {
   eventAttendees EventAttendee[]
   joinRequests JoinRequest[]
 
+  universityId String?
+  university   University? @relation(fields: [universityId], references: [id])
+
   @@map("user")
 }
 
@@ -116,6 +119,7 @@ model University {
   name String  @unique
 
   clubs Club[]
+  admins User[]
 }
 
 enum EMemberRole {

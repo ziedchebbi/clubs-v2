@@ -1,523 +1,345 @@
-"use client";
-
-import React, { useState } from "react";
 import Link from "next/link";
-import { useSession, signOut } from "@/lib/auth-client";
+import {
+  Users,
+  CalendarDays,
+  Megaphone,
+  ShieldCheck,
+  ArrowRight,
+  Star,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const NAVY = "#0d1b3e";
-const CRIMSON = "#c0392b";
+const features = [
+  {
+    icon: Users,
+    title: "Join Clubs",
+    description:
+      "Browse clubs at your university, request to join, and become part of communities that match your interests.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Attend Events",
+    description:
+      "Discover upcoming events from your clubs, RSVP in one tap, and never miss what's happening on campus.",
+  },
+  {
+    icon: Megaphone,
+    title: "Stay Updated",
+    description:
+      "Get announcements from your clubs directly in your activity feed. Comment and engage with your community.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Club Management",
+    description:
+      "Officers and chairs can manage members, post events and announcements, and approve join requests.",
+  },
+];
 
 export default function LandingPage() {
-  const { data: session } = useSession();
-  const isAdmin = session?.user?.role === "ADMIN";
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-[#f5f0e8]">
+    <div className="min-h-screen bg-white text-gray-900">
       {/* Navbar */}
-      <nav className="sticky top-0 z-50 w-full bg-white shadow-sm h-16 flex items-center justify-between px-4 sm:px-8 lg:px-16 border-b border-[#e8ddd0]">
-        <div className="flex items-center gap-3">
-          <span className="text-xl font-bold tracking-tight text-[#1a1a2e] select-none">
-            Uni<span className="text-[#d4895a]">Clubs</span>
-          </span>
-        </div>
-        {/* Desktop nav links */}
-        <div className="hidden md:flex gap-8 items-center">
-          {[
-            { href: "#about", label: "About" },
-            { href: "#clubs", label: "Clubs" },
-            { href: "#events", label: "Events" },
-            { href: "#contact", label: "Contact" },
-          ].map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-[#4a3728] text-sm font-medium hover:text-[#8b4513] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-        {/* Desktop auth buttons */}
-        <div className="hidden md:flex gap-3 items-center">
-          {session ? (
-            <>
-              {isAdmin && (
-                <Link
-                  href="/admin"
-                  className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#f5f0e8]"
-                >
-                  Admin Panel
-                </Link>
-              )}
-              <button
-                onClick={async () => {
-                  await signOut();
-                  window.location.href = "/auth/sign-in";
-                }}
-                className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#f5f0e8]"
-              >
-                Log Out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/auth/sign-in"
-                className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#f5f0e8]"
-              >
-                Log In
-              </Link>
-              <Link
-                href="/auth/sign-up"
-                className="bg-[#8b4513] text-white px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#6b3410]"
-              >
-                Sign Up
-              </Link>
-            </>
-          )}
-        </div>
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513]"
-          aria-label={
-            mobileNavOpen ? "Close navigation menu" : "Open navigation menu"
-          }
-          onClick={() => setMobileNavOpen((v) => !v)}
-        >
-          <span aria-hidden="true">
-            {mobileNavOpen ? (
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                stroke="#1a1a2e"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M6 6l12 12M6 18L18 6" />
-              </svg>
-            ) : (
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                stroke="#1a1a2e"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </span>
-        </button>
-      </nav>
-
-      {/* Mobile nav menu */}
-      {mobileNavOpen && (
-        <div className="md:hidden w-full bg-white border-t border-gray-200 shadow-sm z-40">
-          <nav className="flex flex-col gap-1 py-2">
-            {[
-              { href: "#about", label: "About" },
-              { href: "#clubs", label: "Clubs" },
-              { href: "#events", label: "Events" },
-              { href: "#contact", label: "Contact" },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="px-4 py-3 text-[#1a1a2e] text-base font-medium hover:text-[#c0392b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                onClick={() => setMobileNavOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className="flex flex-col gap-2 px-4 pt-2 pb-3">
-              {session ? (
-                <>
-                  {isAdmin && (
-                    <Link
-                      href="/admin"
-                      className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-                      onClick={() => setMobileNavOpen(false)}
-                    >
-                      Admin Panel
-                    </Link>
-                  )}
-                  <button
-                    onClick={async () => {
-                      await signOut();
-                      window.location.href = "/auth/sign-in";
-                    }}
-                    className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-                  >
-                    Log Out
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/auth/sign-in"
-                    className="border border-[#1a1a2e] text-[#1a1a2e] px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-gray-50"
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Log In
-                  </Link>
-                  <Link
-                    href="/auth/sign-up"
-                    className="bg-[#c0392b] text-white px-4 py-2 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b] hover:bg-[#a93226]"
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              )}
-            </div>
-          </nav>
-        </div>
-      )}
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#1a1a2e] to-[#2d2d5e] py-24 sm:py-32 px-4 sm:px-8 text-center">
-        <span
-          className="inline-block bg-[#8b4513] text-white text-xs font-bold uppercase tracking-widest px-4 py-2 mb-6"
-          aria-hidden="true"
-        >
-          Welcome
-        </span>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-white leading-tight mb-6">
-          Your Campus. Your Clubs.{" "}
-          <em className="text-[#d4895a] not-italic">Your Community.</em>
-        </h1>
-        <p className="text-white/80 text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-          Discover, join, and lead student clubs at your university. Connect
-          with peers, attend events, and make your mark on campus life.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/auth/sign-up"
-            className="bg-[#8b4513] text-white px-8 py-4 text-base font-semibold rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-[#6b3410]"
-          >
-            Get Started
-          </Link>
-          <Link
-            href="#clubs"
-            className="border border-white/60 text-white px-8 py-4 text-base font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8b4513] hover:bg-white/10"
-          >
-            Explore Clubs
-          </Link>
-        </div>
-      </section>
-
-      {/* Stats Bar */}
-      <section className="bg-[#8b4513] py-6 px-4">
-        <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
-          {[
-            { value: "12+", label: "Active Clubs" },
-            { value: "400+", label: "Members" },
-            { value: "50+", label: "Events / Year" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div className="text-white text-2xl sm:text-3xl font-bold">
-                {stat.value}
-              </div>
-              <div className="text-white/90 text-xs sm:text-sm uppercase tracking-wide">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section
-        id="about"
-        className="py-20 px-4 sm:px-8 max-w-6xl mx-auto w-full"
+      <header
+        className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm 
+                         border-b border-gray-200"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="text-[#c0392b] text-xs font-bold uppercase tracking-widest mb-4 block">
-              About the Platform
-            </span>
-            <h2 className="text-[#1a1a2e] text-3xl sm:text-4xl font-serif font-normal mb-6">
-              Bringing Students Together Through Shared Interests
-            </h2>
-            <p className="text-[#4b5563] text-base leading-relaxed mb-6">
-              UniClubs is your all-in-one platform for discovering, joining, and
-              managing student clubs at your university. Whether you're a
-              student looking to get involved, a club member organizing events,
-              or a club president managing your team, UniClubs makes campus life
-              easier and more connected.
-            </p>
-            <ul className="space-y-3">
-              {[
-                "For Students: Browse and join clubs, RSVP to events, and connect with like-minded peers.",
-                "For Club Members: Stay updated on club activities, participate in discussions, and manage your memberships.",
-                "For Club Presidents: Streamline club management, assign roles, and promote your club to the campus community.",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span
-                    className="inline-flex w-5 h-5 bg-[#c0392b] text-white items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
-                    aria-hidden="true"
-                  >
-                    ✓
-                  </span>
-                  <span className="text-[#374151] text-sm">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="bg-[#0d1b3e] p-10">
-            <div className="text-white/70 text-sm mb-6" aria-hidden="true">
-              Platform Stats
-            </div>
-            {[
-              { value: "12", label: "Clubs" },
-              { value: "400", label: "Members" },
-              { value: "50", label: "Events/Year" },
-            ].map((stat, i, arr) => (
-              <div
-                key={stat.label}
-                className={`flex justify-between py-3 ${i < arr.length - 1 ? "border-b border-white/20" : ""}`}
-              >
-                <span className="text-white text-lg font-serif">
-                  {stat.value}
-                </span>
-                <span className="text-white/70 text-sm">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Clubs Section */}
-      <section id="clubs" className="bg-[#f7f5f0] py-20 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto">
-          <span className="text-[#c0392b] text-xs font-bold uppercase tracking-widest mb-4 block">
-            Our Community
-          </span>
-          <h2 className="text-[#1a1a2e] text-3xl sm:text-4xl font-serif font-normal mb-10">
-            Featured Clubs
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                name: "IEEE",
-                icon: "⚡",
-                desc: "Advancing technology for humanity. Workshops, competitions, and networking.",
-                members: 42,
-              },
-              {
-                name: "Croissant Rouge",
-                icon: "❤️",
-                desc: "Humanitarian club focused on volunteering and social impact.",
-                members: 28,
-              },
-              {
-                name: "Cavalo Chess",
-                icon: "♟️",
-                desc: "For chess lovers of all levels. Tournaments, lessons, and fun!",
-                members: 35,
-              },
-            ].map((club) => (
-              <div
-                key={club.name}
-                className="bg-white border-t-4 border-[#c0392b] shadow-sm hover:shadow-md transition-shadow p-8 flex flex-col"
-              >
-                <div className="text-4xl mb-4" aria-hidden="true">
-                  {club.icon}
-                </div>
-                <h3 className="text-[#1a1a2e] text-xl font-serif font-normal mb-2">
-                  {club.name}
-                </h3>
-                <p className="text-[#4b5563] text-sm leading-relaxed mb-6 flex-1">
-                  {club.desc}
-                </p>
-                <div className="flex justify-between items-center border-t border-gray-100 pt-4">
-                  <span className="text-[#6b7280] text-sm">
-                    {club.members} members
-                  </span>
-                  <Link
-                    href="/etudiant/clubs"
-                    className="text-[#c0392b] font-semibold text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                  >
-                    Learn More →
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link
-              href="/etudiant/clubs"
-              className="border-2 border-[#0d1b3e] text-[#0d1b3e] px-10 py-3 text-sm font-semibold hover:bg-[#0d1b3e] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-            >
-              View All Clubs
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Events Section */}
-      <section id="events" className="py-20 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto">
-          <span className="text-[#c0392b] text-xs font-bold uppercase tracking-widest mb-4 block">
-            What's Happening
-          </span>
-          <h2 className="text-[#1a1a2e] text-3xl sm:text-4xl font-serif font-normal mb-10">
-            Upcoming Events
-          </h2>
-          <div className="flex flex-col gap-2">
-            {[
-              {
-                title: "Campus Hackathon",
-                date: "2026-05-02",
-                lieu: "Room A12",
-                public: true,
-                club: "IEEE",
-              },
-              {
-                title: "Arduino Workshop",
-                date: "2026-05-10",
-                lieu: "Robotics Lab",
-                public: false,
-                club: "IEEE",
-              },
-              {
-                title: "Blood Donation Drive",
-                date: "2026-05-15",
-                lieu: "Main Hall",
-                public: true,
-                club: "Croissant Rouge",
-              },
-              {
-                title: "University Chess Tournament",
-                date: "2026-05-20",
-                lieu: "Library Hall",
-                public: true,
-                club: "Cavalo Chess",
-              },
-            ].map((evt, i) => (
-              <div
-                key={evt.title}
-                className={`grid grid-cols-1 sm:grid-cols-[80px_1fr_auto_auto] gap-4 items-center p-6 border-l-4 ${evt.public ? "border-l-[#c0392b]" : "border-l-[#0d1b3e]"} ${i % 2 === 0 ? "bg-white" : "bg-[#f9f9f9]"}`}
-              >
-                <div>
-                  <div className="text-[#0d1b3e] text-2xl font-bold font-sans">
-                    {new Date(evt.date).toLocaleDateString("en-US", {
-                      day: "2-digit",
-                    })}
-                  </div>
-                  <div className="text-[#6b7280] text-xs uppercase tracking-wide">
-                    {new Date(evt.date).toLocaleDateString("en-US", {
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[#1a1a2e] text-lg font-serif">
-                    {evt.title}
-                  </div>
-                  <div className="text-[#4b5563] text-sm">
-                    📍 {evt.lieu} · {evt.club}
-                  </div>
-                </div>
-                <span
-                  className={`text-xs font-semibold px-3 py-1 ${evt.public ? "bg-[#fef0ee] text-[#991b1b]" : "bg-[#eef0fa] text-[#1e40af]"}`}
-                >
-                  {evt.public ? "Public" : "Members Only"}
-                </span>
-                <Link
-                  href="/etudiant/evenements"
-                  className="text-[#c0392b] font-semibold text-sm hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                >
-                  Register →
-                </Link>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link
-              href="/etudiant/evenements"
-              className="bg-[#0d1b3e] text-white px-10 py-3 text-sm font-semibold hover:bg-[#162447] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-            >
-              View All Events
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-[#0d1b3e] py-20 px-4 text-center">
-        <h2 className="text-white text-3xl sm:text-4xl font-serif font-normal mb-4">
-          Ready to Get Involved?
-        </h2>
-        <p className="text-white/80 text-base leading-relaxed mb-10 max-w-xl mx-auto">
-          Create your account today and start exploring clubs, events, and your
-          university community.
-        </p>
-        <Link
-          href="/auth/sign-up"
-          className="bg-[#c0392b] text-white px-12 py-4 text-base font-semibold hover:bg-[#a93226] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
+        <div
+          className="max-w-6xl mx-auto px-6 py-4 flex items-center 
+                        justify-between"
         >
-          Sign Up — It's Free
-        </Link>
+          <span className="font-bold text-xl">
+            <span className="text-gray-900">Uni</span>
+            <span className="text-[#F5A623]">Clubs</span>
+          </span>
+          <Button
+            asChild
+            size="sm"
+            className="bg-[#F5A623] text-[#0F1117] hover:bg-[#E09510] 
+                       font-semibold"
+          >
+            <Link href="/signup">Get Started</Link>
+          </Button>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section
+        className="max-w-6xl mx-auto px-6 pt-24 pb-20 
+                          text-center space-y-8"
+      >
+        {/* Badge */}
+        <div
+          className="inline-flex items-center gap-1.5 bg-[#FFF8EC] 
+                        text-[#F5A623] text-xs font-semibold rounded-full 
+                        px-3 py-1.5 border border-[#F5A623]/20"
+        >
+          <Star className="h-3 w-3 fill-[#F5A623]" />
+          Built for university students
+        </div>
+
+        {/* Heading */}
+        <h1
+          className="text-5xl sm:text-6xl font-bold tracking-tight 
+                       text-gray-900 max-w-3xl mx-auto leading-tight"
+        >
+          Your university clubs,{" "}
+          <span className="text-[#F5A623]">all in one place</span>
+        </h1>
+
+        {/* Subheading */}
+        <p
+          className="text-gray-500 text-lg sm:text-xl max-w-xl mx-auto 
+                      leading-relaxed"
+        >
+          Discover clubs, join communities, attend events, and stay connected
+          with everything happening at your university.
+        </p>
+
+        {/* CTA */}
+        <div
+          className="flex flex-col sm:flex-row items-center 
+                        justify-center gap-3 pt-2"
+        >
+          <Button
+            asChild
+            size="lg"
+            className="bg-[#F5A623] text-[#0F1117] hover:bg-[#E09510] 
+                       font-semibold px-8 rounded-xl"
+          >
+            <Link href="/signup" className="flex items-center gap-2">
+              Create your account
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Link
+            href="/login"
+            className="text-gray-500 text-sm hover:text-gray-900 
+                       hover:underline transition-colors"
+          >
+            Already have an account? Sign in →
+          </Link>
+        </div>
+
+        {/* Hero visual */}
+        <div className="mt-12 relative max-w-3xl mx-auto">
+          {/* Glow */}
+          <div
+            className="absolute inset-0 bg-[#F5A623]/10 rounded-2xl 
+                          blur-3xl -z-10"
+          />
+
+          {/* Mock feed card */}
+          <div
+            className="bg-white border border-gray-200 rounded-2xl 
+                          shadow-xl p-6 text-left space-y-4"
+          >
+            {/* Mock topbar */}
+            <div
+              className="flex items-center justify-between pb-4 
+                            border-b border-gray-100"
+            >
+              <span className="font-bold text-lg">
+                <span className="text-gray-900">Uni</span>
+                <span className="text-[#F5A623]">Clubs</span>
+              </span>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-[#F5A623]" />
+                <span className="text-gray-400 text-xs">Activity Feed</span>
+              </div>
+            </div>
+
+            {/* Mock feed items */}
+            {[
+              {
+                type: "Announcement",
+                club: "AI & Robotics Club",
+                author: "Amir B.",
+                content:
+                  "Welcome to the club! Our first meeting is Thursday at 5pm in building B.",
+                badge: "bg-[#FFF8EC] text-[#F5A623]",
+                comments: 3,
+              },
+              {
+                type: "Event",
+                club: "Photography Society",
+                author: "Sara M.",
+                content: "Golden Hour Photo Walk — Sat, Jun 14 · 5:00 PM",
+                badge: "bg-blue-50 text-blue-600",
+                comments: 7,
+              },
+              {
+                type: "Announcement",
+                club: "Debate Club",
+                author: "Yacine H.",
+                content:
+                  "Practice sessions every Monday and Wednesday at 6pm. New members welcome!",
+                badge: "bg-[#FFF8EC] text-[#F5A623]",
+                comments: 2,
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 p-3 rounded-xl 
+                           hover:bg-gray-50 transition-colors"
+              >
+                {/* Avatar */}
+                <div
+                  className="h-8 w-8 rounded-full bg-[#FFF8EC] 
+                                flex items-center justify-center 
+                                text-[#F5A623] font-bold text-sm shrink-0"
+                >
+                  {item.author.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0 space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-gray-900 font-semibold text-sm">
+                      {item.author}
+                    </span>
+                    <span className="text-gray-400 text-xs">
+                      in {item.club}
+                    </span>
+                    <span
+                      className={`text-xs font-semibold rounded-full 
+                                  px-2 py-0.5 ${item.badge}`}
+                    >
+                      {item.type}
+                    </span>
+                  </div>
+                  <p className="text-gray-500 text-sm">{item.content}</p>
+                  <p className="text-gray-300 text-xs">
+                    {item.comments} comments
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="bg-gray-50 border-y border-gray-200 py-20">
+        <div className="max-w-6xl mx-auto px-6 space-y-12">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl font-bold text-gray-900">
+              Everything your club needs
+            </h2>
+            <p className="text-gray-500 max-w-lg mx-auto">
+              UniClubs brings students, clubs, and university admins together in
+              one simple platform.
+            </p>
+          </div>
+
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 
+                          gap-6"
+          >
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="bg-white border border-gray-200 rounded-xl p-6 
+                           space-y-3 shadow-sm hover:shadow-md 
+                           hover:border-[#F5A623] transition-all group"
+              >
+                <div
+                  className="bg-[#FFF8EC] rounded-lg p-2.5 w-fit 
+                                group-hover:bg-[#F5A623]/20 transition-colors"
+                >
+                  <feature.icon className="h-5 w-5 text-[#F5A623]" />
+                </div>
+                <h3 className="text-gray-900 font-semibold">{feature.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="max-w-6xl mx-auto px-6 py-20 space-y-12">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-bold text-gray-900">
+            Get started in minutes
+          </h2>
+          <p className="text-gray-500 max-w-lg mx-auto">
+            Join your university's clubs and start engaging with your campus
+            community today.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          {[
+            {
+              step: "01",
+              title: "Create your account",
+              description:
+                "Sign up with your university email and select your university.",
+            },
+            {
+              step: "02",
+              title: "Join clubs",
+              description:
+                "Browse clubs at your university and request to join the ones that interest you.",
+            },
+            {
+              step: "03",
+              title: "Stay connected",
+              description:
+                "See events and announcements from your clubs in your personal activity feed.",
+            },
+          ].map((item) => (
+            <div key={item.step} className="space-y-3">
+              <span className="text-4xl font-bold text-[#F5A623]/30">
+                {item.step}
+              </span>
+              <h3 className="text-gray-900 font-semibold text-lg">
+                {item.title}
+              </h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="bg-[#FFF8EC] border-t border-[#F5A623]/20 py-20">
+        <div className="max-w-6xl mx-auto px-6 text-center space-y-6">
+          <h2 className="text-3xl font-bold text-gray-900">
+            Ready to get involved?
+          </h2>
+          <p className="text-gray-500 max-w-md mx-auto">
+            Join UniClubs and discover everything happening at your university.
+          </p>
+          <Button
+            asChild
+            size="lg"
+            className="bg-[#F5A623] text-[#0F1117] hover:bg-[#E09510] 
+                       font-semibold px-8 rounded-xl"
+          >
+            <Link href="/signup" className="flex items-center gap-2">
+              Create your account
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="bg-[#0a1428] py-16 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-            <div>
-              <div className="text-white font-bold text-lg mb-4">
-                Uni<span className="text-[#e74c3c]">Clubs</span>
-              </div>
-              <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-                The official university clubs and events management platform.
-              </p>
-            </div>
-            {[
-              {
-                title: "Platform",
-                links: ["Home", "Clubs", "Events", "Announcements"],
-              },
-              {
-                title: "Roles",
-                links: ["Student", "Member", "President", "Admin"],
-              },
-              {
-                title: "Support",
-                links: ["Help Center", "Contact", "Privacy Policy", "Terms"],
-              },
-            ].map((col) => (
-              <div key={col.title}>
-                <div className="text-white text-xs font-bold uppercase tracking-widest mb-4">
-                  {col.title}
-                </div>
-                <ul className="space-y-2">
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-white/60 text-sm hover:text-white/90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c0392b]"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <span className="text-white/40 text-xs">
-              © 2026 UniClubs. All rights reserved.
-            </span>
-            <span className="text-white/40 text-xs">
-              University Club Management System
-            </span>
-          </div>
+      <footer className="border-t border-gray-200 py-8">
+        <div
+          className="max-w-6xl mx-auto px-6 flex items-center 
+                        justify-between flex-wrap gap-4"
+        >
+          <span className="font-bold text-gray-900">
+            Uni<span className="text-[#F5A623]">Clubs</span>
+          </span>
+          <p className="text-gray-400 text-sm">
+            © {new Date().getFullYear()} UniClubs. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>

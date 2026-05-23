@@ -46,8 +46,8 @@ export async function createAnnonce(
     revalidatePath(`/clubs/${clubId}/manage/announcements`);
     revalidatePath(`/clubs/${clubId}`);
     revalidatePath("/feed");
-    redirect(`/clubs/${clubId}/manage/announcements`);
   } catch {
     return { error: "Something went wrong" };
   }
+  redirect(`/clubs/${clubId}/manage/announcements`);
 }
