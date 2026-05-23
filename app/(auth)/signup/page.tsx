@@ -1,7 +1,13 @@
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import SignUpForm from "@/components/auth/SignUpForm";
 
 export default async function SignUpPage() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (session) redirect("/feed");
+
   const universities = await prisma.university.findMany({
     orderBy: { name: "asc" },
     select: { id: true, name: true },
@@ -13,7 +19,6 @@ export default async function SignUpPage() {
                     justify-center p-4"
     >
       <div className="w-full max-w-md space-y-8">
-        {/* Logo */}
         <div className="text-center">
           <h1 className="text-3xl font-bold">
             <span className="text-gray-900">Uni</span>
@@ -21,7 +26,6 @@ export default async function SignUpPage() {
           </h1>
           <p className="text-gray-500 text-sm mt-2">Create your account</p>
         </div>
-
         <SignUpForm universities={universities} />
       </div>
     </div>
