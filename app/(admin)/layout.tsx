@@ -109,6 +109,29 @@ export default async function AdminLayout({
                 <nav aria-label="Admin navigation" className="p-4">
                   <AdminNavLinks />
                 </nav>
+
+                <div className="px-4 py-4 border-t border-gray-200 mt-auto">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage
+                        src={user?.image || ""}
+                        alt={user?.name || ""}
+                      />
+                      <AvatarFallback className="bg-[#FFF8EC] text-[#F5A623] font-semibold">
+                        {user?.name?.charAt(0) || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">
+                        {user?.name}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {user?.email}
+                      </p>
+                    </div>
+                    <LogoutButton variant="icon" />
+                  </div>
+                </div>
               </SheetContent>
             </Sheet>
 
